@@ -20,4 +20,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
-    
+
+class UserLoginSerilizers(serializers.ModelSerializer):
+    email = serializers.EmailField(max_lenght = 255)
+    class Meta:
+        models = User
+        fields = ['email', 'password']
+        
