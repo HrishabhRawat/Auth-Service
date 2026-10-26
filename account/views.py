@@ -1,7 +1,12 @@
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from .serializers import UserRegistrationSerializer, UserLoginSerilizers, UserProfileSerializer, UserPasswordChangeSerializer, SendUserPasswordEmailSerializer
+from .serializers import (UserRegistrationSerializer, 
+                          UserLoginSerilizers, 
+                          UserProfileSerializer, 
+                          UserPasswordChangeSerializer, 
+                          SendUserPasswordEmailSerializer, 
+                          UserResetPasswordSerializer)
 from django.contrib.auth import authenticate
 from account.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -75,6 +80,15 @@ class SendUserPasswordEmailview(APIView):
             return Response({'msg':'Password reset link send. Please check the your email'}, status= status.HTTP_200_OK)
         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
+
+class UserResetPasswordView(APIView):
+    renderer_classes = [UserRenderer]
+    def post(self, request, uid, token, format = None):
+        serializer = UserResetPasswordSerializer(data = request.data, context = {'uid':uid, 'token':token})
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+        
 
 
 
