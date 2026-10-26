@@ -1,0 +1,7 @@
+# Local environment variables and secrets
+.env
+.env.local
+
+# SQLite database file
+*.sqlite3
+db.sqlite3
